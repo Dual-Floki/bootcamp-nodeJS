@@ -16,7 +16,7 @@ class AppointmentController {
     const appointments = await Appointment.findAll({
       where: { user_id: req.userId, canceled_at: null },
       order: ['date'],
-      attributes: ['id', 'date'],
+      attributes: ['id', 'date', 'past', 'cancelable'],
       limit: 20,
       offset: (page - 1) * 20,
       include: [
@@ -124,6 +124,7 @@ class AppointmentController {
     return res.json(appointment);
   }
 
+  // eslint-disable-next-line consistent-return
   async delete(req, res) {
     const appointment = await Appointment.findByPk(req.params.id, {
       include: [
